@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ApiFerid.Api/ApiFerid.Api.csproj" Id="7ae837e6-4b06-4c08-8c5c-c0feffc38432" />
+  <Project Path="ApiFerid.Business/ApiFerid.Business.csproj" Id="b146c71f-b054-4a76-a569-57b547c4bb74" />
+  <Project Path="ApiFerid.Core/ApiFerid.Core.csproj" />
+  <Project Path="ApiFerid.DataAccess/ApiFerid.DataAccess.csproj" />
+</Solution>
