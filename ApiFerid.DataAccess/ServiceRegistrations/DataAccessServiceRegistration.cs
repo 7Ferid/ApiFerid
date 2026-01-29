@@ -1,4 +1,5 @@
 ﻿using ApiFerid.DataAccess.Context;
+using ApiFerid.DataAccess.Interceptor;
 using ApiFerid.DataAccess.Repositories.Abstractions;
 using ApiFerid.DataAccess.Repositories.Implementations;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,8 @@ namespace ApiFerid.DataAccess.ServiceRegistrations
             {
                 x.UseSqlServer(configuration.GetConnectionString("Default"));
             });
+
+            services.AddScoped<BaseAuditableInterceptor>();
 
             return services;
 

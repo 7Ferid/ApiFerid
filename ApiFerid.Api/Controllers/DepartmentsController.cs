@@ -8,7 +8,7 @@ namespace ApiFerid.Api.Controllers
     [ApiController]
     public class DepartmentsController(IDepartmentService _service) : ControllerBase
     {
-        [HttpGet]
+         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var result = await _service.GetAllAsync();
@@ -26,24 +26,24 @@ namespace ApiFerid.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] DepartmentCreateDto dto)
         {
-            await _service.CreateAsync(dto);
-            return Ok("Created");
+            var result = await _service.CreateAsync(dto);
+            return Ok(result);
         }
 
 
         [HttpPut]
         public async Task<IActionResult> Update([FromForm] DepartmentUpdateDto dto)
         {
-            await _service.UpdateAsync(dto);
-            return Ok("Updated");
+            var result = await _service.UpdateAsync(dto);
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]
 
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            await _service.DeleteAsync(id);
-            return Ok("Deleted");
+            var result = await _service.DeleteAsync(id);
+            return Ok(result);
         }
 
     }

@@ -1,4 +1,5 @@
 ﻿using ApiFerid.Business.Dtos.EmployeeDtos;
+using ApiFerid.Business.Dtos.ResultsDto;
 using ApiFerid.Business.Exceptions;
 using ApiFerid.Business.Services.Abstractions;
 using ApiFerid.Core.Entities;
@@ -26,7 +27,7 @@ namespace ApiFerid.Business.Services.Implementations
             _cloudinaryService = cloudinaryService;
         }
 
-        public async Task CreateAsync(EmployeeCreateDto dto)
+        public async Task<ResultDto> CreateAsync(EmployeeCreateDto dto)
         {
             var isExistDepartment = _departmentRepository.AnyAsync(x => x.Id == dto.DepartmentId);
             if (!isExistDepartment.Result)
@@ -36,9 +37,14 @@ namespace ApiFerid.Business.Services.Implementations
             employee.ImagePath = imagePath;
             await _repository.AddAsync(employee);
             await _repository.SaveChangesAsync();
+            return new ResultDto
+            {
+                StatusCode = 201,
+                IsSucced = true,
+                Message = "Employee is created successfully"
+            };
         }
-
-        public async Task DeleteAsync(Guid id)
+        public async Task<ResultDto> DeleteAsync(Guid id)
         {
             var employee = await _repository.GetByIdAsync(id);
             if (employee is null)
@@ -46,25 +52,29 @@ namespace ApiFerid.Business.Services.Implementations
             await _cloudinaryService.FileDeleteAsync(employee.ImagePath);
             _repository.DeleteAsync(employee);
             await _repository.SaveChangesAsync();
+            return new();
         }
 
-        public async Task<List<EmployeeGetDto>> GetAllAsync()
+        public async Task<ResultDto<List<EmployeeGetDto>>> GetAllAsync()
         {
             var employees = await _repository.GetAll().Include(x => x.Department).ToListAsync();
             var dtos = _mapper.Map<List<EmployeeGetDto>>(employees);
-            return dtos;
+            return new()
+            {
+                Data = dtos
+            };
         }
 
-        public async Task<EmployeeGetDto?> GetByIdAsync(Guid id)
+        public async Task<ResultDto<EmployeeGetDto>> GetByIdAsync(Guid id)
         {
             var employee = await _repository.GetByIdAsync(id);
             if (employee is null)
                 throw new NotFoundException("Employee is not found");
             var dto = _mapper.Map<EmployeeGetDto>(employee);
-            return dto;
+            return new() { Data = dto, Message = "Get By id is Successfuly" };
         }
 
-        public async Task UpdateAsync(EmployeeUpdateDto dto)
+        public async Task<ResultDto> UpdateAsync(EmployeeUpdateDto dto)
         {
             var isExistDepartment = _departmentRepository.AnyAsync(x => x.Id == dto.DepartmentId);
             if (!isExistDepartment.Result)
@@ -80,7 +90,7 @@ namespace ApiFerid.Business.Services.Implementations
                 existItem.ImagePath = imagePath;
             }
             _repository.UpdateAsync(existItem);
-            await _repository.SaveChangesAsync();
+            return new("Update is successfully");
         }
     }
 }

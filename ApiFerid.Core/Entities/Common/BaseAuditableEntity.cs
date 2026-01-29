@@ -2,16 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ApiFerid.Business.Dtos.EmployeeDtos
+namespace ApiFerid.Core.Entities.Common
 {
-    public class EmployeeGetDto
+    public abstract class BaseAuditableEntity : BaseEntity
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Surname { get; set; } = string.Empty;
-        public string ImagePath { get; set; } = string.Empty;
-        public string DepartmentName { get; set; } = string.Empty;
-
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; } = string.Empty;
         public DateTime? UpdatedDate { get; set; }

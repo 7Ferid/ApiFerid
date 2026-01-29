@@ -35,9 +35,15 @@ namespace ApiFerid.DataAccess.Repositories.Implementations.Generic
 
         }
 
-        public IQueryable<T> GetAll()
+        public IQueryable<T> GetAll(bool ignoreQueryFilter = false)
         {
-            return _context.Set<T>();
+            var query = _context.Set<T>().AsQueryable();
+
+            if (ignoreQueryFilter)
+                query = query.IgnoreQueryFilters();
+
+
+            return query;
         }
 
         public Task<T?> GetAsync(Expression<Func<T, bool>> expression)
