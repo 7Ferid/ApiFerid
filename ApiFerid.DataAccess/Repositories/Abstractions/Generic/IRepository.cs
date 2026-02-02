@@ -19,3 +19,4 @@ namespace ApiFerid.DataAccess.Repositories.Abstractions.Generic
 
     }
 }
+

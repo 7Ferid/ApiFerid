@@ -1,11 +1,13 @@
 ﻿using ApiFerid.Business.Dtos.EmployeeDtos;
 using ApiFerid.Business.Services.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiFerid.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Member")]
     public class EmployeesController(IEmployeeService _service) : ControllerBase
     {
         [HttpGet]
